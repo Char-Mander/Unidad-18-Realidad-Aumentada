@@ -5,8 +5,8 @@ using UnityEngine;
 public class MonsterCreator : MonoBehaviour
 {
     public MonsterSCR monsterData;
-    public Transform posMonster;
-    Monster monster;
+    [SerializeField] Transform posMonster;
+    public Monster monster;
 
     private void Awake()
     {

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public enum MonsterType { FIRE, WATER, ELECTRIC}
 
-public class Monster : MonoBehaviour
+[System.Serializable]
+public class Monster
 {
+    public string mName;
     public int maxHp = 100;
     public int _hp;
     public int currentHp
@@ -23,6 +25,7 @@ public class Monster : MonoBehaviour
 
     public Monster(MonsterSCR mData)
     {
+        mName = mData._mName;
         maxHp = mData._maxHp;
         currentHp = maxHp;
         mType = mData._mType;
