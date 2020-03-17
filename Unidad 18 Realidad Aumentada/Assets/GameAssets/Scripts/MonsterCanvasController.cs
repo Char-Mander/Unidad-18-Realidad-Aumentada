@@ -9,10 +9,11 @@ public class MonsterCanvasController : MonoBehaviour
     public Image iconTypeImg;
     public Image healthBarImg;
 
-    public void SetInitialValues(string mName, Sprite iconType)
+    public void SetInitialValues(string mName, Sprite iconType, int _current, int _max)
     {
         monsterNameTxt.text = mName;
         iconTypeImg.sprite = iconType;
+        UpdateMonsterHp(_current, _max);
     }
 
     public void UpdateMonsterHp(int hp, int maxHp)

@@ -15,5 +15,7 @@ MonoBehaviour:
   _mName: Agente Filoscuro
   _maxHp: 100
   _mType: 1
+  _attack: 20
+  _defense: 5
   _typeIcon: {fileID: 21300000, guid: 68f2aaa7a4fa8304094b082a64096640, type: 3}
   _model: {fileID: 1791906130487597268, guid: 43fd2be1b23be2c4db590a6941dc0956, type: 3}

@@ -30,13 +30,13 @@ public class DetectTracking : DefaultTrackableEventHandler
     {
         print(gameObject.name + " encontrado");
         isTracked = true;
-        CombatManager.instance.RegistPlayer(myMonster);
+        CombatManager.instance.RegistPlayer(myMonster, GetComponentInChildren<MonsterCanvasController>(), GetComponentInChildren<Animator>());
         CombatManager.instance.SetPlayerTracked(myMonster, true);
     }
 
     public void PlayerLost()
     {
-       // print(gameObject.name + " perdido");
+        print(gameObject.name + " perdido");
         isTracked = false;
         CombatManager.instance.SetPlayerTracked(myMonster, false);
     }

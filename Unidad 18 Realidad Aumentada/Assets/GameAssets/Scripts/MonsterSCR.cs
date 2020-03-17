@@ -8,6 +8,8 @@ public class MonsterSCR : ScriptableObject
     public string _mName;
     public int _maxHp;
     public MonsterType _mType;
+    public int _attack;
+    public int _defense;
     public Sprite _typeIcon;
     public GameObject _model;
 }

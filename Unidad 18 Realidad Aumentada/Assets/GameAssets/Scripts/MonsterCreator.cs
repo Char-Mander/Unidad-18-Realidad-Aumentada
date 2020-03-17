@@ -17,6 +17,6 @@ public class MonsterCreator : MonoBehaviour
     {
         monster = new Monster(monsterData);
         Instantiate(monsterData._model, posMonster);
-        GetComponentInChildren<MonsterCanvasController>().SetInitialValues(monsterData.name, monsterData._typeIcon);
+        GetComponentInChildren<MonsterCanvasController>().SetInitialValues(monsterData.name, monsterData._typeIcon, monster.currentHp, monster.maxHp);
     }
 }

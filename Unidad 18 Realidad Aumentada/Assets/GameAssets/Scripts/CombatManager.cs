@@ -21,6 +21,8 @@ public class CombatManager : MonoBehaviour
     {
         public Monster playerMonster;
         public bool isTracked;
+        public MonsterCanvasController mCanvas;
+        public Animator anim;
 
         public Player(Monster pMonster)
         {
@@ -74,16 +76,20 @@ public class CombatManager : MonoBehaviour
         }
     }
 
-    public void RegistPlayer(Monster monster)
+    public void RegistPlayer(Monster monster, MonsterCanvasController mCanvas, Animator _anim)
     {
         if(player1 == null)
         {
             player1 = new Player(monster);
+            player1.mCanvas = mCanvas;
+            player1.anim = _anim;
             Debug.Log(player1.playerMonster.mName + " registered P1");
         }
         else if(player2 == null && player1.playerMonster != monster)
         {
             player2 = new Player(monster);
+            player2.mCanvas = mCanvas;
+            player2.anim = _anim;
             Debug.Log(player2.playerMonster.mName + " registered P2");
         }
     }
@@ -103,16 +109,52 @@ public class CombatManager : MonoBehaviour
 
     IEnumerator StartP1Turn()
     {
+        print("Turno player1");
+        player1.playerMonster.Attack(player2.playerMonster);
+        player1.anim.SetTrigger("Attack 02");
+        player2.mCanvas.UpdateMonsterHp(player2.playerMonster.currentHp, player2.playerMonster.maxHp);
         yield return new WaitForSeconds(timeBetweenTurns);
         player1Turn = false;
-        state = CombatState.SINCRO;
+        if (player2.playerMonster.currentHp > 0)
+            state = CombatState.SINCRO;
+        else
+        {
+            state = CombatState.END;
+            player2.anim.SetTrigger("Die");
+            StartCoroutine(EndFight());
+        }
     }
 
     IEnumerator StartP2Turn()
     {
+        print("Turno player2");
+        player2.playerMonster.Attack(player1.playerMonster);
+        player2.anim.SetTrigger("Attack 02");
+        player1.mCanvas.UpdateMonsterHp(player1.playerMonster.currentHp, player1.playerMonster.maxHp);
         yield return new WaitForSeconds(timeBetweenTurns);
         player1Turn = true;
-        state = CombatState.SINCRO;
+        if (player1.playerMonster.currentHp > 0)
+            state = CombatState.SINCRO;
+        else
+        {
+            state = CombatState.END;
+            player1.anim.SetTrigger("Die");
+            StartCoroutine(EndFight());
+        }
     }
 
+
+    IEnumerator EndFight()
+    {
+        yield return new WaitForSeconds(timeBetweenTurns);
+        player1 = null;
+        player2 = null;
+        MonsterCreator[] mcs = FindObjectsOfType<MonsterCreator>();
+        foreach(MonsterCreator mc in mcs){
+            mc.monster = null;
+            Destroy(mc.transform.GetChild(0).transform.GetChild(0).gameObject);
+        }
+        yield return new WaitForSeconds(timeBetweenTurns);
+        state = CombatState.WAITING;
+    }
 }
